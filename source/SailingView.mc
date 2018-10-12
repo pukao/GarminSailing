@@ -25,6 +25,56 @@ class SailingView extends WatchUi.View {
     function onUpdate(dc) {
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
+        var height = dc.getHeight();
+        var width = dc.getWidth();
+
+        // Fill the entire background with Black.
+        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
+        dc.fillRectangle(0, 0, width, height);
+
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        var battery = System.getSystemStats().battery;
+        if (battery <= 30) {
+            if (battery <= 10) {
+                dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+            }
+            dc.drawText(width * 0.30 ,(height * 0.05), Graphics.FONT_MEDIUM, "B", Graphics.TEXT_JUSTIFY_CENTER);
+        }
+
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        var clockTime = System.getClockTime();
+        var time = clockTime.hour.format("%02d") + ":" + clockTime.min.format("%02d");
+        dc.drawText(width * 0.50 ,(height * 0.05), Graphics.FONT_MEDIUM, time, Graphics.TEXT_JUSTIFY_CENTER);
+
+        // Activity.Info maxSpeed in m/s
+        dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
+        var maxSpeed = 3;
+        maxSpeed = maxSpeed * mps_to_kts;
+        maxSpeed = maxSpeed.format("%02.1f");
+        dc.drawText(width * 0.88 ,(height * 0.43), Graphics.FONT_XTINY, maxSpeed, Graphics.TEXT_JUSTIFY_RIGHT);
+
+        // Activity.Info currentSpeed in m/s
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        var speed = 12;
+        var knots = (speed * mps_to_kts).format("%02.1f");
+        dc.drawText(width * 0.70 ,(height * 0.30), Graphics.FONT_NUMBER_THAI_HOT, knots, Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(width * 0.90 ,(height * 0.57), Graphics.FONT_LARGE, "kts", Graphics.TEXT_JUSTIFY_VCENTER);
+
+        // Activity.Info elapsedDistance in meters
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        var distance = 2300;
+        distance = distance * m_to_nm;
+        distance = distance.format("%02.2f");
+        dc.drawText(width * 0.62, (height * 0.70), Graphics.FONT_TINY, distance, Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(width * 0.62, (height * 0.73), Graphics.FONT_XTINY, " nm", Graphics.TEXT_JUSTIFY_LEFT);
+
+        // Activity.Info elapsedTime in ms
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        var timer = 85800;
+        timer = timer / 60 / 10;
+        timer = (timer / 60).format("%02d") + ":" + (timer % 60).format("%02d");
+        dc.drawText(width * 0.62, (height * 0.80), Graphics.FONT_TINY, timer, Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(width * 0.62, (height * 0.83), Graphics.FONT_XTINY, " h", Graphics.TEXT_JUSTIFY_LEFT);
     }
 
     // Called when this View is removed from the screen. Save the
