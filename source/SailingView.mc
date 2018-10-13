@@ -10,9 +10,9 @@ class SailingView extends WatchUi.View {
     var update_timer = null;
 
     function initialize() {
+        System.println("Start position request");
         View.initialize();
-        Position.enableLocationEvents(
-            Position.LOCATION_CONTINUOUS, self.method(:onPosition));
+        Position.enableLocationEvents(Position.LOCATION_CONTINUOUS, self.method(:onPosition));
     }
 
     function onPosition(info) {
@@ -20,17 +20,22 @@ class SailingView extends WatchUi.View {
             return;
         }
 
+        System.println("Got an Position update: " + info.accuracy);
+
         if (info.accuracy != Position.QUALITY_GOOD) {
             return;
         }
+
+        System.println("Position usable. Start recording.");
 
         Position.enableLocationEvents(Position.LOCATION_DISABLE, null);
         $.session = ActivityRecording.createSession({
                          :name=>"Sailing",
                          :sport=>32, // SPORT_SAILING 32
                         });
-
         $.session.start();
+
+        refreshView();
     }
 
     // Load your resources here
@@ -83,7 +88,7 @@ class SailingView extends WatchUi.View {
                 drawSailInfo(dc);
             }
         } catch (ex) {
-            System.println("Error.. Activity Info not available. " + ex);
+            System.println("Error.. Activity Info not available. " + ex.getErrorMessage());
         }
     }
 
