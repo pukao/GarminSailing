@@ -6,6 +6,7 @@ using Toybox.Activity;
 class SailingView extends WatchUi.View {
     var mps_to_kts = 1.944;
     var m_to_nm = 0.000539957;
+    var update_timer = null;
 
     function initialize() {
         View.initialize();
@@ -19,6 +20,15 @@ class SailingView extends WatchUi.View {
     // the state of this View and prepare it to be shown. This includes
     // loading resources into memory.
     function onShow() {
+        update_timer = new Timer.Timer();
+        // onUpdate every 500ms
+        update_timer.start(method(:refreshView), 500, true);
+
+        return true;
+    }
+
+    function refreshView() {
+        WatchUi.requestUpdate();
     }
 
     // Update the view
