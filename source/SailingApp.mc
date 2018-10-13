@@ -26,7 +26,7 @@ class SailingApp extends Application.AppBase {
 
     // Return the initial view of your application here
     function getInitialView() {
-        return [ new SailingView(), new SailingDelegate() ];
+        return [ new SailingView() ];
     }
 
 }
