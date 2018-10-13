@@ -20,22 +20,18 @@ class SailingView extends WatchUi.View {
             return;
         }
 
-        System.println("Got an Position update: " + info.accuracy);
-
         if (info.accuracy != Position.QUALITY_GOOD) {
             return;
         }
 
-        System.println("Position usable. Start recording.");
-
-        Position.enableLocationEvents(Position.LOCATION_DISABLE, null);
-        $.session = ActivityRecording.createSession({
+        if ($.session == null) {
+            System.println("Position usable. Start recording.");
+            $.session = ActivityRecording.createSession({
                          :name=>"Sailing",
                          :sport=>32, // SPORT_SAILING 32
                         });
-        $.session.start();
-
-        refreshView();
+            $.session.start();
+        }
     }
 
     // Load your resources here
