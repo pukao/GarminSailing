@@ -11,11 +11,5 @@ class SailingDelegate extends WatchUi.BehaviorDelegate {
         return true;
     }
 
-    function onKey(keyEvent) {
-        if (keyEvent.getKey() == KEY_ENTER) {
-            System.println("The button was pressed");
-        }
-        return true;
-    }
 
 }
