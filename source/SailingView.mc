@@ -11,6 +11,26 @@ class SailingView extends WatchUi.View {
 
     function initialize() {
         View.initialize();
+        Position.enableLocationEvents(
+            Position.LOCATION_CONTINUOUS, self.method(:onPosition));
+    }
+
+    function onPosition(info) {
+        if (info == null || info.accuracy == null) {
+            return;
+        }
+
+        if (info.accuracy != Position.QUALITY_GOOD) {
+            return;
+        }
+
+        Position.enableLocationEvents(Position.LOCATION_DISABLE, null);
+        $.session = ActivityRecording.createSession({
+                         :name=>"Sailing",
+                         :sport=>32, // SPORT_SAILING 32
+                        });
+
+        $.session.start();
     }
 
     // Load your resources here

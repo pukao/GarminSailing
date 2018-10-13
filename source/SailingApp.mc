@@ -5,7 +5,6 @@ using Toybox.ActivityRecording;
 var session = null;
 
 class SailingApp extends Application.AppBase {
-    var session = null;
 
     function initialize() {
         AppBase.initialize();
@@ -13,17 +12,11 @@ class SailingApp extends Application.AppBase {
 
     // onStart() is called on application start up
     function onStart(state) {
-        $.session = ActivityRecording.createSession({
-                         :name=>"Sailing",
-                         :sport=>32, // SPORT_SAILING 32
-                         :subSport=>ActivityRecording.SUB_SPORT_GENERIC
-                        });
-        $.session.start();
     }
 
     // onStop() is called when your application is exiting
     function onStop(state) {
-        if ($.session.isRecording()) {
+        if ($.session != null && $.session.isRecording()) {
             $.session.stop();
             $.session.save();
             $.session = null;
