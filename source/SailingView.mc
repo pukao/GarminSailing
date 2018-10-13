@@ -1,6 +1,7 @@
 using Toybox.WatchUi;
 using Toybox.Lang;
 using Toybox.Activity;
+using Toybox.Timer;
 
 
 class SailingView extends WatchUi.View {
