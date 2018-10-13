@@ -100,6 +100,7 @@ class SailingView extends WatchUi.View {
         // Activity.Info maxSpeed in m/s
         dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
         var maxSpeed = activity.maxSpeed;
+        if (maxSpeed == null) { maxSpeed = 0; }
         maxSpeed = maxSpeed * mps_to_kts;
         maxSpeed = maxSpeed.format("%02.1f");
         dc.drawText(width * 0.88 ,(height * 0.43), Graphics.FONT_XTINY, maxSpeed, Graphics.TEXT_JUSTIFY_RIGHT);
@@ -107,6 +108,7 @@ class SailingView extends WatchUi.View {
         // Activity.Info currentSpeed in m/s
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var speed = activity.currentSpeed;
+        if (speed == null) { speed = 0; }
         var knots = (speed * mps_to_kts).format("%02.1f");
         dc.drawText(width * 0.70 ,(height * 0.30), Graphics.FONT_NUMBER_THAI_HOT, knots, Graphics.TEXT_JUSTIFY_RIGHT);
         dc.drawText(width * 0.90 ,(height * 0.57), Graphics.FONT_LARGE, "kts", Graphics.TEXT_JUSTIFY_VCENTER);
@@ -114,6 +116,7 @@ class SailingView extends WatchUi.View {
         // Activity.Info elapsedDistance in meters
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var distance = activity.elapsedDistance;
+        if (distance == null) { distance = 0; }
         distance = distance * m_to_nm;
         distance = distance.format("%02.2f");
         dc.drawText(width * 0.62, (height * 0.70), Graphics.FONT_TINY, distance, Graphics.TEXT_JUSTIFY_RIGHT);
@@ -122,6 +125,7 @@ class SailingView extends WatchUi.View {
         // Activity.Info elapsedTime in ms
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var timer = activity.elapsedTime;
+        if (timer == null) { timer = 0; }
         timer = timer / 60 / 60 / 10;
         timer = (timer / 60).format("%02d") + ":" + (timer % 60).format("%02d");
         dc.drawText(width * 0.62, (height * 0.80), Graphics.FONT_TINY, timer, Graphics.TEXT_JUSTIFY_RIGHT);
