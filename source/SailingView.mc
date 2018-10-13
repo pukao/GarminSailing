@@ -25,8 +25,20 @@ class SailingView extends WatchUi.View {
     function onUpdate(dc) {
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
+
+        try {
+            if ($.session != null && $.session.isRecording()) {
+                drawSailInfo(dc);
+            }
+        } catch (ex) {
+            System.println("Error.. Activity Info not available. " + ex);
+        }
+    }
+
+    function drawSailInfo(dc) {
         var height = dc.getHeight();
         var width = dc.getWidth();
+        var activity = Activity.getActivityInfo();
 
         // Fill the entire background with Black.
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
@@ -48,21 +60,21 @@ class SailingView extends WatchUi.View {
 
         // Activity.Info maxSpeed in m/s
         dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
-        var maxSpeed = 3;
+        var maxSpeed = activity.maxSpeed;
         maxSpeed = maxSpeed * mps_to_kts;
         maxSpeed = maxSpeed.format("%02.1f");
         dc.drawText(width * 0.88 ,(height * 0.43), Graphics.FONT_XTINY, maxSpeed, Graphics.TEXT_JUSTIFY_RIGHT);
 
         // Activity.Info currentSpeed in m/s
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        var speed = 12;
+        var speed = activity.currentSpeed;
         var knots = (speed * mps_to_kts).format("%02.1f");
         dc.drawText(width * 0.70 ,(height * 0.30), Graphics.FONT_NUMBER_THAI_HOT, knots, Graphics.TEXT_JUSTIFY_RIGHT);
         dc.drawText(width * 0.90 ,(height * 0.57), Graphics.FONT_LARGE, "kts", Graphics.TEXT_JUSTIFY_VCENTER);
 
         // Activity.Info elapsedDistance in meters
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        var distance = 2300;
+        var distance = activity.elapsedDistance;
         distance = distance * m_to_nm;
         distance = distance.format("%02.2f");
         dc.drawText(width * 0.62, (height * 0.70), Graphics.FONT_TINY, distance, Graphics.TEXT_JUSTIFY_RIGHT);
@@ -70,8 +82,8 @@ class SailingView extends WatchUi.View {
 
         // Activity.Info elapsedTime in ms
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        var timer = 85800;
-        timer = timer / 60 / 10;
+        var timer = activity.elapsedTime;
+        timer = timer / 60 / 60 / 10;
         timer = (timer / 60).format("%02d") + ":" + (timer % 60).format("%02d");
         dc.drawText(width * 0.62, (height * 0.80), Graphics.FONT_TINY, timer, Graphics.TEXT_JUSTIFY_RIGHT);
         dc.drawText(width * 0.62, (height * 0.83), Graphics.FONT_XTINY, " h", Graphics.TEXT_JUSTIFY_LEFT);
