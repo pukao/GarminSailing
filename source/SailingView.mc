@@ -13,6 +13,9 @@ class SailingView extends WatchUi.View {
         System.println("Start position request");
         View.initialize();
         Position.enableLocationEvents(Position.LOCATION_CONTINUOUS, self.method(:onPosition));
+        update_timer = new Timer.Timer();
+        // onUpdate every 500ms
+        update_timer.start(method(:refreshView), 500, true);
     }
 
     function onPosition(info) {
@@ -42,15 +45,15 @@ class SailingView extends WatchUi.View {
     // the state of this View and prepare it to be shown. This includes
     // loading resources into memory.
     function onShow() {
-        update_timer = new Timer.Timer();
-        // onUpdate every 500ms
-        update_timer.start(method(:refreshView), 500, true);
-
         return true;
     }
 
     function refreshView() {
-        WatchUi.requestUpdate();
+        try {
+            WatchUi.requestUpdate();
+        } catch (ex) {
+            System.println("Error.. Activity Info not available. " + ex.getErrorMessage());
+        }
     }
 
     // Update the view
