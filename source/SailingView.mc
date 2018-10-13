@@ -36,20 +36,9 @@ class SailingView extends WatchUi.View {
     function onUpdate(dc) {
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
-
-        try {
-            if ($.session != null && $.session.isRecording()) {
-                drawSailInfo(dc);
-            }
-        } catch (ex) {
-            System.println("Error.. Activity Info not available. " + ex);
-        }
-    }
-
-    function drawSailInfo(dc) {
         var height = dc.getHeight();
         var width = dc.getWidth();
-        var activity = Activity.getActivityInfo();
+
 
         // Fill the entire background with Black.
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
@@ -68,6 +57,20 @@ class SailingView extends WatchUi.View {
         var clockTime = System.getClockTime();
         var time = clockTime.hour.format("%02d") + ":" + clockTime.min.format("%02d");
         dc.drawText(width * 0.50 ,(height * 0.05), Graphics.FONT_MEDIUM, time, Graphics.TEXT_JUSTIFY_CENTER);
+
+        try {
+            if ($.session != null && $.session.isRecording()) {
+                drawSailInfo(dc);
+            }
+        } catch (ex) {
+            System.println("Error.. Activity Info not available. " + ex);
+        }
+    }
+
+    function drawSailInfo(dc) {
+        var height = dc.getHeight();
+        var width = dc.getWidth();
+        var activity = Activity.getActivityInfo();
 
         // Activity.Info maxSpeed in m/s
         dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
