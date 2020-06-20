@@ -5,7 +5,7 @@ using Toybox.Timer;
 
 
 class SailingView extends WatchUi.View {
-    var mps_to_kts = 1.944;
+    var mps_to_kts = 1.943844492;
     var m_to_nm = 0.000539957;
     var update_timer = null;
 
