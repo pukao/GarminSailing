@@ -118,8 +118,8 @@ class SailingView extends WatchUi.View {
         if (distance == null) { distance = 0; }
         distance = distance * m_to_nm;
         distance = distance.format("%02.2f");
-        dc.drawText(width * 0.62, (height * 0.70), Graphics.FONT_TINY, distance, Graphics.TEXT_JUSTIFY_RIGHT);
-        dc.drawText(width * 0.62, (height * 0.73), Graphics.FONT_XTINY, " nm", Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(width * 0.62, (height * 0.73), Graphics.FONT_TINY, distance, Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(width * 0.62, (height * 0.73), Graphics.FONT_TINY, " nm", Graphics.TEXT_JUSTIFY_LEFT);
 
         // Activity.Info elapsedTime in ms
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
@@ -128,8 +128,8 @@ class SailingView extends WatchUi.View {
         timer = timer / 1000;
         timer = timer / 60;
         timer = (timer / 60).format("%02d") + ":" + (timer % 60).format("%02d");
-        dc.drawText(width * 0.62, (height * 0.80), Graphics.FONT_TINY, timer, Graphics.TEXT_JUSTIFY_RIGHT);
-        dc.drawText(width * 0.62, (height * 0.83), Graphics.FONT_XTINY, " h", Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(width * 0.62, (height * 0.83), Graphics.FONT_TINY, timer, Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(width * 0.62, (height * 0.83), Graphics.FONT_TINY, " h", Graphics.TEXT_JUSTIFY_LEFT);
     }
 
     // Called when this View is removed from the screen. Save the
