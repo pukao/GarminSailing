@@ -2,12 +2,17 @@ using Toybox.WatchUi;
 using Toybox.Lang;
 using Toybox.Activity;
 using Toybox.Timer;
-
+using Toybox.Attention;
 
 class SailingView extends WatchUi.View {
     var mps_to_kts = 1.943844492;
     var m_to_nm = 0.000539957;
     var update_timer = null;
+
+    var countdownDefault = 300; // 5 min
+    var countdownRemaining = 0;
+    var countdownTimer = null;
+
 
     function initialize() {
         System.println("Start position request");
@@ -16,6 +21,7 @@ class SailingView extends WatchUi.View {
         update_timer = new Timer.Timer();
         // onUpdate every 500ms
         update_timer.start(method(:refreshView), 500, true);
+        countdownTimer = new Timer.Timer();
     }
 
     function onPosition(info) {
@@ -104,13 +110,18 @@ class SailingView extends WatchUi.View {
         maxSpeed = maxSpeed.format("%02.1f");
         dc.drawText(width * 0.88 ,(height * 0.43), Graphics.FONT_XTINY, maxSpeed, Graphics.TEXT_JUSTIFY_RIGHT);
 
-        // Activity.Info currentSpeed in m/s
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        var speed = activity.currentSpeed;
-        if (speed == null) { speed = 0; }
-        var knots = (speed * mps_to_kts).format("%02.1f");
-        dc.drawText(width * 0.70 ,(height * 0.20), Graphics.FONT_NUMBER_THAI_HOT, knots, Graphics.TEXT_JUSTIFY_RIGHT);
-        dc.drawText(width * 0.90 ,(height * 0.57), Graphics.FONT_LARGE, "kts", Graphics.TEXT_JUSTIFY_VCENTER);
+        if (isCountdownRunning()) {
+            // do not show the speed but the remaining time
+            dc.drawText(width * 0.70 ,(height * 0.20), Graphics.FONT_NUMBER_THAI_HOT, countdownRemaining, Graphics.TEXT_JUSTIFY_RIGHT);
+        } else {
+            // Activity.Info currentSpeed in m/s
+            var speed = activity.currentSpeed;
+            if (speed == null) { speed = 0; }
+            var knots = (speed * mps_to_kts).format("%02.1f");
+            dc.drawText(width * 0.70 ,(height * 0.20), Graphics.FONT_NUMBER_THAI_HOT, knots, Graphics.TEXT_JUSTIFY_RIGHT);
+            dc.drawText(width * 0.90 ,(height * 0.57), Graphics.FONT_LARGE, "kts", Graphics.TEXT_JUSTIFY_VCENTER);
+        }
 
         // Activity.Info elapsedDistance in meters
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
@@ -137,5 +148,106 @@ class SailingView extends WatchUi.View {
     // memory.
     function onHide() {
     }
+
+    // Countdown handling
+    function isCountdownRunning() {
+        return (countdownRemaining > 0);
+    }
+
+    var countdownStep = 30;
+    function fixTimeUp() {
+        if (isCountdownRunning()) {
+            // connect iq does not support (-countdownRemaining % contdownStep) to return
+            // the proper value, thus this workaround must be used
+            var modify = (countdownRemaining % countdownStep) - countdownStep;
+            countdownRemaining -= modify;
+            System.println("fixTimeUp " + countdownRemaining);
+        }
+    }
+
+    function fixTimeDown() {
+        if (isCountdownRunning() and countdownRemaining > countdownStep) {
+            var modify = (countdownRemaining % countdownStep);
+            if (modify == 0) { modify = countdownStep; }
+            countdownRemaining -= modify;
+            if (countdownRemaining < 0) {
+                countdownRemaining = 0;
+            }
+            System.println("fixTimeUpDown " + countdownRemaining);
+        }
+    }
+
+    function startCountdown() {
+        countdownRemaining = countdownDefault;
+        countdownTimer.start( method(:countdownCallback), 1000, true );
+    }
+
+    function countdownCallback()
+    {
+        if(countdownRemaining > 0){
+            if(countdownRemaining <= 10){
+                ring(1);
+            }
+            if((countdownRemaining - 1) == 30){
+                ring(3);
+            }
+            if((countdownRemaining - 1) == 60){
+                    ring(1);
+            }
+            countdownRemaining -= 1;
+        } else {
+            endCountdown();
+        }
+    }
+
+    function endCountdown() {
+        if ($.session != null && $.session.isRecording()) {
+            $.session.addLap();
+        }
+        countdownRemaining = 0;
+        countdownTimer.stop();
+    }
+
+    function ring(loops){
+        if (loops > 4) {
+            System.println("The vibrate profile only supprts 8");
+            loops = 4;
+        }
+        System.println("Ring ring");
+        if (Attention has :vibrate) {
+            var vibeData = new [loops * 2];
+            for (var i = 0; i < loops * 2; i += 2) {
+                vibeData[i] = new Attention.VibeProfile(100, 500); // On for mseconds
+                vibeData[i+1] = new Attention.VibeProfile(0, 500); // Off for mseconds
+            }
+            Attention.vibrate(vibeData);
+        }
+        Attention.playTone(Attention.TONE_ALARM);
+    }
+
+}
+
+class SailingInputDelegate extends WatchUi.BehaviorDelegate {
+    var sailView = null;
+    function initialize(sv) {
+        BehaviorDelegate.initialize();
+        sailView = sv;
+    }
+
+    function onSelect(){
+        System.println("select pressed");
+        sailView.startCountdown();
+    }
+
+    function onPreviousPage(){
+        System.println("up pressed");
+        sailView.fixTimeUp();
+    }
+
+    function onNextPage(){
+        System.println("down pressed");
+        sailView.fixTimeDown();
+    }
+
 
 }
