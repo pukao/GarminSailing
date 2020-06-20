@@ -109,7 +109,7 @@ class SailingView extends WatchUi.View {
         var speed = activity.currentSpeed;
         if (speed == null) { speed = 0; }
         var knots = (speed * mps_to_kts).format("%02.1f");
-        dc.drawText(width * 0.70 ,(height * 0.30), Graphics.FONT_NUMBER_THAI_HOT, knots, Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(width * 0.70 ,(height * 0.20), Graphics.FONT_NUMBER_THAI_HOT, knots, Graphics.TEXT_JUSTIFY_RIGHT);
         dc.drawText(width * 0.90 ,(height * 0.57), Graphics.FONT_LARGE, "kts", Graphics.TEXT_JUSTIFY_VCENTER);
 
         // Activity.Info elapsedDistance in meters
