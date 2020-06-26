@@ -217,8 +217,8 @@ class SailingView extends WatchUi.View {
         if (Attention has :vibrate) {
             var vibeData = new [loops * 2];
             for (var i = 0; i < loops * 2; i += 2) {
-                vibeData[i] = new Attention.VibeProfile(100, 500); // On for mseconds
-                vibeData[i+1] = new Attention.VibeProfile(0, 500); // Off for mseconds
+                vibeData[i] = new Attention.VibeProfile(100, 450); // On for mseconds
+                vibeData[i+1] = new Attention.VibeProfile(0, 450); // Off for mseconds
             }
             Attention.vibrate(vibeData);
         }
