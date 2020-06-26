@@ -113,13 +113,13 @@ class SailingView extends WatchUi.View {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         if (isCountdownRunning()) {
             // do not show the speed but the remaining time
-            dc.drawText(width * 0.70 ,(height * 0.20), Graphics.FONT_NUMBER_THAI_HOT, countdownRemaining, Graphics.TEXT_JUSTIFY_RIGHT);
+            dc.drawText(width * 0.70 ,(height * 0.50), Graphics.FONT_NUMBER_THAI_HOT, countdownRemaining, Graphics.TEXT_JUSTIFY_VCENTER);
         } else {
             // Activity.Info currentSpeed in m/s
             var speed = activity.currentSpeed;
             if (speed == null) { speed = 0; }
             var knots = (speed * mps_to_kts).format("%02.1f");
-            dc.drawText(width * 0.70 ,(height * 0.20), Graphics.FONT_NUMBER_THAI_HOT, knots, Graphics.TEXT_JUSTIFY_RIGHT);
+            dc.drawText(width * 0.70 ,(height * 0.50), Graphics.FONT_NUMBER_THAI_HOT, knots, Graphics.TEXT_JUSTIFY_VCENTER);
             dc.drawText(width * 0.90 ,(height * 0.57), Graphics.FONT_LARGE, "kts", Graphics.TEXT_JUSTIFY_VCENTER);
         }
 
