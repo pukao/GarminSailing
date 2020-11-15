@@ -222,7 +222,9 @@ class SailingView extends WatchUi.View {
             }
             Attention.vibrate(vibeData);
         }
-        Attention.playTone(Attention.TONE_ALARM);
+        if (Attention has :playTone) {
+            Attention.playTone(Attention.TONE_ALARM);
+        }
     }
 
 }
