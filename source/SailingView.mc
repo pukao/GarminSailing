@@ -106,6 +106,15 @@ class SailingView extends WatchUi.View {
         var width = dc.getWidth();
         var activity = Activity.getActivityInfo();
 
+        // Activity.Info elapsedTime in ms
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        var timer = activity.elapsedTime;
+        if (timer == null) { timer = 0; }
+        timer = timer / 1000;
+        dc.drawText(width * 0.5, (height * 0.18), Graphics.FONT_TINY,
+					((timer / 60) / 60).format("%d") + ":" + ((timer / 60) % 60).format("%02d") + ":" + (timer % 60).format("%02d"),
+					Graphics.TEXT_JUSTIFY_CENTER);
+
         // Activity.Info maxSpeed in m/s
         dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
         var maxSpeed = activity.maxSpeed;
@@ -136,16 +145,6 @@ class SailingView extends WatchUi.View {
         distance = distance.format("%02.2f");
         dc.drawText(width * 0.62, (height * 0.73), Graphics.FONT_TINY, distance, Graphics.TEXT_JUSTIFY_RIGHT);
         dc.drawText(width * 0.62, (height * 0.73), Graphics.FONT_TINY, " nm", Graphics.TEXT_JUSTIFY_LEFT);
-
-        // Activity.Info elapsedTime in ms
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        var timer = activity.elapsedTime;
-        if (timer == null) { timer = 0; }
-        timer = timer / 1000;
-        timer = ((timer / 60) / 60).format("%d") + ":" + ((timer / 60) % 60).format("%02d")
-				+ ":" + (timer % 60).format("%02d");
-        dc.drawText(width * 0.62, (height * 0.83), Graphics.FONT_TINY, timer, Graphics.TEXT_JUSTIFY_RIGHT);
-        dc.drawText(width * 0.62, (height * 0.83), Graphics.FONT_TINY, " h", Graphics.TEXT_JUSTIFY_LEFT);
     }
 
     // Called when this View is removed from the screen. Save the
