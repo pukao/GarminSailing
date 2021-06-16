@@ -140,8 +140,8 @@ class SailingView extends WatchUi.View {
         var timer = activity.elapsedTime;
         if (timer == null) { timer = 0; }
         timer = timer / 1000;
-        timer = timer / 60;
-        timer = (timer / 60).format("%02d") + ":" + (timer % 60).format("%02d");
+        timer = ((timer / 60) / 60).format("%d") + ":" + ((timer / 60) % 60).format("%02d")
+				+ ":" + (timer % 60).format("%02d");
         dc.drawText(width * 0.62, (height * 0.83), Graphics.FONT_TINY, timer, Graphics.TEXT_JUSTIFY_RIGHT);
         dc.drawText(width * 0.62, (height * 0.83), Graphics.FONT_TINY, " h", Graphics.TEXT_JUSTIFY_LEFT);
     }
