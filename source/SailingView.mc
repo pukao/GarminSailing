@@ -13,6 +13,8 @@ class SailingView extends WatchUi.View {
     var countdownRemaining = 0;
     var countdownTimer = null;
 
+    var lapTime = 0;
+
 
     function initialize() {
         System.println("Start position request");
@@ -206,6 +208,7 @@ class SailingView extends WatchUi.View {
     function endCountdown() {
         if ($.session != null && $.session.isRecording()) {
             $.session.addLap();
+            lapTime = Activity.getActivityInfo().elapsedTime;
         }
         countdownRemaining = 0;
         countdownTimer.stop();
