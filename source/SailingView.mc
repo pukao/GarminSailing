@@ -115,7 +115,8 @@ class SailingView extends WatchUi.View {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         if (isCountdownRunning()) {
             // do not show the speed but the remaining time
-            dc.drawText(width * 0.70 ,(height * 0.50), Graphics.FONT_NUMBER_THAI_HOT, countdownRemaining, Graphics.TEXT_JUSTIFY_VCENTER);
+            var time = (countdownRemaining / 60).format("%d") + ":" + (countdownRemaining % 60).format("%02d");
+            dc.drawText(width * 0.70 ,(height * 0.50), Graphics.FONT_NUMBER_THAI_HOT, time, Graphics.TEXT_JUSTIFY_VCENTER);
         } else {
             // Activity.Info currentSpeed in m/s
             var speed = activity.currentSpeed;
