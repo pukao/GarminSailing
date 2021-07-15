@@ -14,6 +14,8 @@ class SailingView extends WatchUi.View {
     var countdownTimer = null;
 
     var lapTime = 0;
+    var lapDistance = 0;
+    var lapTopSpeed = 0;
 
 
     function initialize() {
@@ -57,6 +59,12 @@ class SailingView extends WatchUi.View {
     }
 
     function refreshView() {
+        if ($.session != null && $.session.isRecording()) {
+            var speed = Activity.getActivityInfo().currentSpeed;
+            if (speed > lapTopSpeed) {
+                lapTopSpeed = speed;
+            }
+        }
         try {
             WatchUi.requestUpdate();
         } catch (ex) {
@@ -208,6 +216,8 @@ class SailingView extends WatchUi.View {
         if ($.session != null && $.session.isRecording()) {
             $.session.addLap();
             lapTime = Activity.getActivityInfo().elapsedTime;
+            lapDistance = Activity.getActivityInfo().elapsedDistance;
+            lapTopSpeed = 0;
         }
         countdownRemaining = 0;
         countdownTimer.stop();
