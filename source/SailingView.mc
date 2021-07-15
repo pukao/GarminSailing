@@ -114,14 +114,25 @@ class SailingView extends WatchUi.View {
         var width = dc.getWidth();
         var activity = Activity.getActivityInfo();
 
+
+        // Activity.Info elapsedDistance in meters
+
+        var distance = activity.elapsedDistance;
+        if (distance == null) { distance = 0; }
+        distance = distance * m_to_nm;
+        distance = distance.format("%02.2f");
+
         // Activity.Info elapsedTime in ms
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var timer = activity.elapsedTime;
         if (timer == null) { timer = 0; }
         timer = timer / 1000;
+
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(width * 0.5, (height * 0.18), Graphics.FONT_TINY,
-					((timer / 60) / 60).format("%d") + ":" + ((timer / 60) % 60).format("%02d") + ":" + (timer % 60).format("%02d"),
-					Graphics.TEXT_JUSTIFY_CENTER);
+                    ((timer / 60) / 60).format("%d") + ":" + ((timer / 60) % 60).format("%02d") + ":" + (timer % 60).format("%02d") +
+                    "  " + distance + " nm",
+                    Graphics.TEXT_JUSTIFY_CENTER);
+
 
         // Activity.Info maxSpeed in m/s
         dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
@@ -145,14 +156,40 @@ class SailingView extends WatchUi.View {
             dc.drawText(width * 0.90 ,(height * 0.57), Graphics.FONT_LARGE, "kts", Graphics.TEXT_JUSTIFY_VCENTER);
         }
 
-        // Activity.Info elapsedDistance in meters
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        var distance = activity.elapsedDistance;
-        if (distance == null) { distance = 0; }
-        distance = distance * m_to_nm;
-        distance = distance.format("%02.2f");
-        dc.drawText(width * 0.62, (height * 0.73), Graphics.FONT_TINY, distance, Graphics.TEXT_JUSTIFY_RIGHT);
-        dc.drawText(width * 0.62, (height * 0.73), Graphics.FONT_TINY, " nm", Graphics.TEXT_JUSTIFY_LEFT);
+
+        // lap
+        dc.drawLine(0, (height * 0.71), width, (height * 0.71));
+
+        if (self.lapTime > 0) {
+            dc.drawText(width * 0.2, (height * 0.73), Graphics.FONT_TINY, "lap", Graphics.TEXT_JUSTIFY_CENTER);
+
+            // Activity.Info maxSpeed in m/s
+            dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
+            maxSpeed = self.lapTopSpeed;
+            if (maxSpeed == null) { maxSpeed = 0; }
+            maxSpeed = maxSpeed * mps_to_kts;
+            maxSpeed = maxSpeed.format("%02.1f");
+            dc.drawText(width * 0.88 ,(height * 0.73), Graphics.FONT_XTINY, maxSpeed, Graphics.TEXT_JUSTIFY_RIGHT);
+
+            // Activity.Info elapsedTime in ms
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+            var lapTime = activity.elapsedTime;
+            if (lapTime == null) { lapTime = 0; }
+            lapTime = lapTime - self.lapTime;
+            lapTime = lapTime / 1000;
+            dc.drawText(width * 0.38, (height * 0.73), Graphics.FONT_TINY,
+                        ((timer / 60) / 60).format("%d") + ":" + ((lapTime / 60) % 60).format("%02d") + ":" + (lapTime % 60).format("%02d"),
+                        Graphics.TEXT_JUSTIFY_LEFT);
+
+            // Activity.Info elapsedDistance in meters - Since last lap
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+            var lapDistance = activity.elapsedDistance;
+            if (lapDistance == null) { lapDistance = 0; }
+            lapDistance = lapDistance - self.lapDistance;
+            lapDistance = lapDistance * m_to_nm;
+            lapDistance = lapDistance.format("%02.2f");
+        //        dc.drawText(width * 0.38, (height * 0.83), Graphics.FONT_TINY, lapDistance + " nm", Graphics.TEXT_JUSTIFY_LEFT);
+        }
     }
 
     // Called when this View is removed from the screen. Save the
