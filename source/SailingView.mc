@@ -21,8 +21,8 @@ class SailingView extends WatchUi.View {
         View.initialize();
         Position.enableLocationEvents(Position.LOCATION_CONTINUOUS, self.method(:onPosition));
         update_timer = new Timer.Timer();
-        // onUpdate every 500ms
-        update_timer.start(method(:refreshView), 500, true);
+        // onUpdate every 1000ms
+        update_timer.start(method(:refreshView), 1000, true);
         countdownTimer = new Timer.Timer();
     }
 
@@ -244,16 +244,19 @@ class SailingInputDelegate extends WatchUi.BehaviorDelegate {
     function onSelect(){
         System.println("select pressed");
         sailView.startCountdown();
+        WatchUi.requestUpdate();
     }
 
     function onPreviousPage(){
         System.println("up pressed");
         sailView.fixTimeUp();
+        WatchUi.requestUpdate();
     }
 
     function onNextPage(){
         System.println("down pressed");
         sailView.fixTimeDown();
+        WatchUi.requestUpdate();
     }
 
 
