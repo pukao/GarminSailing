@@ -102,7 +102,7 @@ class SailingView extends WatchUi.View {
             if ($.session != null && $.session.isRecording()) {
                 drawSailInfo(dc);
             } else {
-				dc.drawText(width * 0.50 ,(height * 0.50), Graphics.FONT_SMALL, "Waiting for GPS", Graphics.TEXT_JUSTIFY_CENTER);
+                dc.drawText(width * 0.50 ,(height * 0.50), Graphics.FONT_SMALL, "Waiting for GPS", Graphics.TEXT_JUSTIFY_CENTER);
             }
         } catch (ex) {
             System.println("Error.. Activity Info not available. " + ex.getErrorMessage());
