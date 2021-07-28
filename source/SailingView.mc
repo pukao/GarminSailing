@@ -178,7 +178,7 @@ class SailingView extends WatchUi.View {
             lapTime = lapTime - self.lapTime;
             lapTime = lapTime / 1000;
             dc.drawText(width * 0.38, (height * 0.73), Graphics.FONT_TINY,
-                        ((timer / 60) / 60).format("%d") + ":" + ((lapTime / 60) % 60).format("%02d") + ":" + (lapTime % 60).format("%02d"),
+                        ((lapTime / 60) / 60).format("%d") + ":" + ((lapTime / 60) % 60).format("%02d") + ":" + (lapTime % 60).format("%02d"),
                         Graphics.TEXT_JUSTIFY_LEFT);
 
             // Activity.Info elapsedDistance in meters - Since last lap
