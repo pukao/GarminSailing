@@ -157,10 +157,10 @@ class SailingView extends WatchUi.View {
         }
 
 
-        // lap
-        dc.drawLine(0, (height * 0.71), width, (height * 0.71));
-
         if (self.lapTime > 0) {
+            // lap
+            dc.drawLine(0, (height * 0.71), width, (height * 0.71));
+
             dc.drawText(width * 0.2, (height * 0.73), Graphics.FONT_TINY, "lap", Graphics.TEXT_JUSTIFY_CENTER);
 
             // Activity.Info maxSpeed in m/s
