@@ -13,9 +13,9 @@ class SailingView extends WatchUi.View {
     var countdownRemaining = 0;
     var countdownTimer = null;
 
-    var lapTime = 0;
-    var lapDistance = 0;
-    var lapTopSpeed = 0;
+    var lapTime as Lang.Number = 0;
+    var lapDistance as Lang.Float = 0;
+    var lapTopSpeed as Lang.Float = 0;
 
 
     function initialize() {
