@@ -60,9 +60,13 @@ class SailingView extends WatchUi.View {
 
     function refreshView() {
         if ($.session != null && $.session.isRecording()) {
-            var speed = Activity.getActivityInfo().currentSpeed;
-            if (speed > lapTopSpeed) {
-                lapTopSpeed = speed;
+            try {
+                var speed = Activity.getActivityInfo().currentSpeed;
+                if (speed > self.lapTopSpeed) {
+                    self.lapTopSpeed = speed;
+                }
+            } catch (ex) {
+                System.println("Error.. top speed not available. " + ex.getErrorMessage());
             }
         }
         try {
