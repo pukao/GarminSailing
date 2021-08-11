@@ -132,11 +132,24 @@ class SailingView extends WatchUi.View {
         timer = timer / 1000;
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(width * 0.5, (height * 0.18), Graphics.FONT_TINY,
+        dc.drawText(width * 0.5, (height * 0.17), Graphics.FONT_TINY,
                     ((timer / 60) / 60).format("%d") + ":" + ((timer / 60) % 60).format("%02d") + ":" + (timer % 60).format("%02d") +
                     "  " + distance + " nm",
                     Graphics.TEXT_JUSTIFY_CENTER);
 
+
+        // heading in r
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        var heading = activity.currentHeading;
+        if (heading) {
+            heading = Math.toDegrees(heading);
+            if (heading < 0) {
+                heading += 360;
+            }
+            dc.drawText(width * 0.5, (height * 0.27), Graphics.FONT_TINY,
+                    heading.format("%d") + "°",
+                    Graphics.TEXT_JUSTIFY_CENTER);
+        }
 
         // Activity.Info maxSpeed in m/s
         dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
