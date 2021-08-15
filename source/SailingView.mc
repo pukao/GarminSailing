@@ -139,6 +139,7 @@ class SailingView extends WatchUi.View {
 
 
         // heading in r
+        if (false) {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var heading = activity.currentHeading;
         if (heading) {
@@ -149,6 +150,7 @@ class SailingView extends WatchUi.View {
             dc.drawText(width * 0.5, (height * 0.27), Graphics.FONT_TINY,
                     heading.format("%d") + "°",
                     Graphics.TEXT_JUSTIFY_CENTER);
+        }
         }
 
         // Activity.Info maxSpeed in m/s
