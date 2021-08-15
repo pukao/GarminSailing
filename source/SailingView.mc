@@ -305,22 +305,33 @@ class SailingInputDelegate extends WatchUi.BehaviorDelegate {
         sailView = sv;
     }
 
-    function onSelect(){
-        System.println("select pressed");
+    function onKey(evt as KeyEvent) as Boolean {
+        if (evt.getKey() == WatchUi.KEY_ENTER) {
+            return start();
+        }
+        return false;
+    }
+
+
+    function start(){
+        System.println("start action");
         sailView.startCountdown();
         WatchUi.requestUpdate();
+        return true;
     }
 
     function onPreviousPage(){
         System.println("up pressed");
         sailView.fixTimeUp();
         WatchUi.requestUpdate();
+        return true;
     }
 
     function onNextPage(){
         System.println("down pressed");
         sailView.fixTimeDown();
         WatchUi.requestUpdate();
+        return true;
     }
 
 
