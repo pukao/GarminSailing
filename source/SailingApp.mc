@@ -26,16 +26,16 @@ class SailingApp extends Application.AppBase {
             // use Application.Storage and Application.Properties methods
             System.println("Read settings - Storage");
 
-            setting_regatta_mode = Properties.getValue("regattaMode") == null ? false : Properties.getValue("regattaMode");
-            setting_lap_time = Properties.getValue("lapTime") == null ? false : Properties.getValue("lapTime");
-            setting_experimental_heading = Properties.getValue("heading") == null ? false : Properties.getValue("heading");
+            setting_regatta_mode = Properties.getValue("regattaMode") == null ? setting_regatta_mode : Properties.getValue("regattaMode");
+            setting_lap_time = Properties.getValue("lapTime") == null ? setting_lap_time : Properties.getValue("lapTime");
+            setting_experimental_heading = Properties.getValue("heading") == null ? setting_experimental_heading : Properties.getValue("heading");
         } else {
             System.println("Read settings - getProperty");
 
             var app = Application.getApp();
-            setting_regatta_mode = app.getProperty("regattaMode") == null ? false : app.getProperty("regattaMode");
-            setting_lap_time = app.getProperty("lapTime") == null ? false : app.getProperty("lapTime");
-            setting_experimental_heading = app.getProperty("heading") == null ? false : app.getProperty("heading");
+            setting_regatta_mode = app.getProperty("regattaMode") == null ? setting_regatta_mode : app.getProperty("regattaMode");
+            setting_lap_time = app.getProperty("lapTime") == null ? setting_lap_time : app.getProperty("lapTime");
+            setting_experimental_heading = app.getProperty("heading") == null ? setting_experimental_heading : app.getProperty("heading");
         }
     }
 
