@@ -139,7 +139,7 @@ class SailingView extends WatchUi.View {
 
 
         // heading in r
-        if (false) {
+        if ($.setting_experimental_heading) {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var heading = activity.currentHeading;
         if (heading) {
@@ -166,7 +166,7 @@ class SailingView extends WatchUi.View {
             // do not show the speed but the remaining time
             var time = (countdownRemaining / 60).format("%d") + ":" + (countdownRemaining % 60).format("%02d");
             dc.drawText(width * 0.70 ,(height * 0.50), Graphics.FONT_NUMBER_THAI_HOT, time, Graphics.TEXT_JUSTIFY_VCENTER);
-        } else {
+        } else if (!$.setting_regatta_mode) {
             // Activity.Info currentSpeed in m/s
             var speed = activity.currentSpeed;
             if (speed == null) { speed = 0; }
@@ -176,7 +176,7 @@ class SailingView extends WatchUi.View {
         }
 
 
-        if (self.lapTime > 0) {
+        if ($.setting_lap_time && self.lapTime > 0) {
             // lap
             dc.drawLine(0, (height * 0.71), width, (height * 0.71));
 

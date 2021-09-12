@@ -1,3 +1,7 @@
 <strings>
     <string id="AppName">Sail</string>
+
+    <string id="regattaMode">Regatta Mode</string>
+    <string id="lapTime">Show lap times</string>
+    <string id="heading">Show heading (Experimental)</string>
 </strings>
