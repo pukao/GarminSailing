@@ -1,12 +1,15 @@
 using Toybox.WatchUi;
-using Toybox.Lang;
+import Toybox.Lang;
 using Toybox.Activity;
+using Toybox.ActivityRecording;
 using Toybox.Timer;
 using Toybox.Attention;
+import Toybox.Position;
 
 class SailingView extends WatchUi.View {
     var mps_to_kts = 1.943844492;
     var m_to_nm = 0.000539957;
+
     var update_timer = null;
 
     var countdownDefault = 300; // 5 min
@@ -14,8 +17,8 @@ class SailingView extends WatchUi.View {
     var countdownTimer = null;
 
     var lapTime as Lang.Number = 0;
-    var lapDistance as Lang.Float = 0;
-    var lapTopSpeed as Lang.Float = 0;
+    var lapDistance as Lang.Float = 0.0;
+    var lapTopSpeed as Lang.Float = 0.0;
 
 
     function initialize() {
@@ -28,7 +31,7 @@ class SailingView extends WatchUi.View {
         countdownTimer = new Timer.Timer();
     }
 
-    function onPosition(info) {
+    function onPosition(info as Position.Info) as Void {
         if (info == null || info.accuracy == null) {
             return;
         }
@@ -41,7 +44,7 @@ class SailingView extends WatchUi.View {
             System.println("Position usable. Start recording.");
             $.session = ActivityRecording.createSession({
                          :name=>"Sailing",
-                         :sport=>32, // SPORT_SAILING 32
+                         :sport=>32 as ActivityRecording.Sport1, // SPORT_SAILING 32
                         });
             $.session.start();
         }
@@ -55,10 +58,9 @@ class SailingView extends WatchUi.View {
     // the state of this View and prepare it to be shown. This includes
     // loading resources into memory.
     function onShow() {
-        return true;
     }
 
-    function refreshView() {
+    function refreshView() as Void {
         if ($.session != null && $.session.isRecording()) {
             try {
                 var speed = Activity.getActivityInfo().currentSpeed;
@@ -273,7 +275,7 @@ class SailingView extends WatchUi.View {
             $.session.addLap();
             lapTime = Activity.getActivityInfo().elapsedTime;
             lapDistance = Activity.getActivityInfo().elapsedDistance;
-            lapTopSpeed = 0;
+            lapTopSpeed = 0.0;
         }
         countdownRemaining = 0;
         countdownTimer.stop();
@@ -286,7 +288,7 @@ class SailingView extends WatchUi.View {
         }
         System.println("Ring ring");
         if (Attention has :vibrate) {
-            var vibeData = new [loops * 2];
+            var vibeData = new [loops * 2] as Array<Attention.VibeProfile>;
             for (var i = 0; i < loops * 2; i += 2) {
                 vibeData[i] = new Attention.VibeProfile(100, 450); // On for mseconds
                 vibeData[i+1] = new Attention.VibeProfile(0, 450); // Off for mseconds
@@ -307,7 +309,7 @@ class SailingInputDelegate extends WatchUi.BehaviorDelegate {
         sailView = sv;
     }
 
-    function onKey(evt as KeyEvent) as Boolean {
+    function onKey(evt) {
         if (evt.getKey() == WatchUi.KEY_ENTER) {
             return start();
         }

@@ -1,14 +1,17 @@
-using Toybox.Application;
-using Toybox.WatchUi;
-using Toybox.ActivityRecording;
+import Toybox.Lang;
+import Toybox.Application;
+import Toybox.WatchUi;
+import Toybox.ActivityRecording;
+import Toybox.Application.Storage;
+
 using Toybox.Application.Properties;
 
-var session = null;
+var session as Session? = null;
 
-var setting_regatta_mode = false;
-var setting_lap_time = true;
+var setting_regatta_mode as Boolean? = false;
+var setting_lap_time as Boolean? = true;
 
-var setting_experimental_heading = false;
+var setting_experimental_heading as Boolean? = false;
 
 class SailingApp extends Application.AppBase {
 
@@ -26,9 +29,9 @@ class SailingApp extends Application.AppBase {
             // use Application.Storage and Application.Properties methods
             System.println("Read settings - Storage");
 
-            setting_regatta_mode = Properties.getValue("regattaMode") == null ? setting_regatta_mode : Properties.getValue("regattaMode");
-            setting_lap_time = Properties.getValue("lapTime") == null ? setting_lap_time : Properties.getValue("lapTime");
-            setting_experimental_heading = Properties.getValue("heading") == null ? setting_experimental_heading : Properties.getValue("heading");
+            setting_regatta_mode = Properties.getValue("regattaMode");
+            setting_lap_time = Properties.getValue("lapTime");
+            setting_experimental_heading = Storage.getValue("heading");
         } else {
             System.println("Read settings - getProperty");
 
@@ -41,18 +44,20 @@ class SailingApp extends Application.AppBase {
 
     // onStop() is called when your application is exiting
     function onStop(state) {
-        if ($.session != null && $.session.isRecording()) {
-            $.session.stop();
-            $.session.save();
-            $.session = null;
-            System.println("Session saved");
+        if ($.session != null) {
+            if($.session.isRecording()) {
+                $.session.stop();
+                $.session.save();
+                $.session = null;
+                System.println("Session saved");
+            }
         }
     }
 
     // Return the initial view of your application here
     function getInitialView() {
         var sv = new SailingView();
-        return [ sv, new SailingInputDelegate(sv)];
+        return [ sv, new SailingInputDelegate(sv)] as Array<Views or InputDelegates>;
     }
 
 }
