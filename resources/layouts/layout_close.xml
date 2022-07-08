@@ -1,6 +1,9 @@
 <layout id="CloseLayout">
 
-    <label id="HeaderLabel" x="50%" y="30%" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" />
+    <label id="HeaderLabel" x="50%" y="10%" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" />
+    <label id="TouchLabel" x="50%" y="40%" font="Graphics.FONT_TINY" justification="Graphics.TEXT_JUSTIFY_CENTER" />
+
+    <label id="ButtonsLabel" x="50%" y="80%" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" />
     <label id="ConfirmLabel" x="20%" y="70%" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" />
     <label id="BackLabel" x="80%" y="70%" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" />
 

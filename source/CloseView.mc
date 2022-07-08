@@ -48,9 +48,15 @@ class CloseView extends WatchUi.View {
     //! Update the view
     //! @param dc Device Context
     public function onUpdate(dc) as Void {
+        var device = System.getDeviceSettings();
 
         (findDrawableById("HeaderLabel") as WatchUi.Text).setText("Close app?");
 
+        if (device.isTouchScreen){
+            (findDrawableById("TouchLabel") as WatchUi.Text).setText("On touch devices\nswipe up");
+        }
+
+        // (findDrawableById("ButtonsLabel") as WatchUi.Text).setText("Buttons");
         (findDrawableById("ConfirmLabel") as WatchUi.Text).setText("Yes");
         (findDrawableById("BackLabel") as WatchUi.Text).setText("No");
 
