@@ -345,5 +345,13 @@ class SailingInputDelegate extends WatchUi.BehaviorDelegate {
         return true;
     }
 
+    function onBack(){
+        System.println("Back pressed");
+        var close = new CloseView();
+        var delegate = new CloseInputDelegate();
+
+        WatchUi.pushView(close, delegate, SLIDE_IMMEDIATE);
+        return true;
+    }
 
 }

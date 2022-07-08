@@ -1,0 +1,7 @@
+<layout id="CloseLayout">
+
+    <label id="HeaderLabel" x="50%" y="30%" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" />
+    <label id="ConfirmLabel" x="20%" y="70%" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" />
+    <label id="BackLabel" x="80%" y="70%" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" />
+
+</layout>
