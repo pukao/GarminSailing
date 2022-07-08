@@ -227,10 +227,15 @@ class SailingView extends WatchUi.View {
     var countdownStep = 30;
     function fixTimeUp() {
         if (isCountdownRunning()) {
-            // connect iq does not support (-countdownRemaining % contdownStep) to return
-            // the proper value, thus this workaround must be used
-            var modify = (countdownRemaining % countdownStep) - countdownStep;
-            countdownRemaining -= modify;
+            var modify = (countdownRemaining % countdownStep);
+            modify = countdownStep - modify;
+
+            if (modify <= 1) {
+                // If its just on the edge, increase a full step
+                modify += countdownStep;
+            }
+
+            countdownRemaining += modify;
             System.println("fixTimeUp " + countdownRemaining);
         }
     }
@@ -238,7 +243,9 @@ class SailingView extends WatchUi.View {
     function fixTimeDown() {
         if (isCountdownRunning() and countdownRemaining > countdownStep) {
             var modify = (countdownRemaining % countdownStep);
-            if (modify == 0) { modify = countdownStep; }
+            if (modify <= 1) {
+                modify += countdownStep;
+            }
             countdownRemaining -= modify;
             if (countdownRemaining < 0) {
                 countdownRemaining = 0;
