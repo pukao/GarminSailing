@@ -31,22 +31,26 @@ class SailingView extends WatchUi.View {
         countdownTimer = new Timer.Timer();
     }
 
+    hidden static var bailoutCounter = 0 as Number;
     function onPosition(info as Position.Info) as Void {
         if (info == null || info.accuracy == null) {
             return;
         }
 
-        if (info.accuracy != Position.QUALITY_GOOD) {
-            return;
+        if (info.accuracy == Position.QUALITY_USABLE) {
+            bailoutCounter++;
         }
 
-        if ($.session == null) {
-            System.println("Position usable. Start recording.");
-            $.session = ActivityRecording.createSession({
-                         :name=>"Sailing",
-                         :sport=>32 as ActivityRecording.Sport1, // SPORT_SAILING 32
-                        });
-            $.session.start();
+        if (info.accuracy == Position.QUALITY_GOOD or bailoutCounter > 10) {
+            // Either have a Good quality or a usable for 10 times
+            if ($.session == null) {
+                System.println("Position usable. Start recording.");
+                $.session = ActivityRecording.createSession({
+                            :name=>"Sailing",
+                            :sport=>32 as ActivityRecording.Sport1, // SPORT_SAILING 32
+                            });
+                $.session.start();
+            }
         }
     }
 
