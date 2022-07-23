@@ -25,13 +25,13 @@ class SailingApp extends Application.AppBase {
     }
 
     function onSettingsChanged() {
-        if (Toybox.Application has :Storage ) {
+        if (Toybox.Application has :Properties ) {
             // use Application.Storage and Application.Properties methods
-            System.println("Read settings - Storage");
+            System.println("Read settings - Properties");
 
             setting_regatta_mode = Properties.getValue("regattaMode");
             setting_lap_time = Properties.getValue("lapTime");
-            setting_experimental_heading = Storage.getValue("heading");
+            setting_experimental_heading = Properties.getValue("heading");
         } else {
             System.println("Read settings - getProperty");
 

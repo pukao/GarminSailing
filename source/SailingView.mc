@@ -31,7 +31,7 @@ class SailingView extends WatchUi.View {
         countdownTimer = new Timer.Timer();
     }
 
-    hidden static var bailoutCounter = 0 as Number;
+    hidden static var bailoutCounter as Number = 0;
     function onPosition(info as Position.Info) as Void {
         if (info == null || info.accuracy == null) {
             return;
