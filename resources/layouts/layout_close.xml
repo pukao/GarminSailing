@@ -5,6 +5,7 @@
 
     <label id="ButtonsLabel" x="50%" y="80%" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" />
     <label id="ConfirmLabel" x="20%" y="70%" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" />
+    <label id="RegattaLabel" x="15%" y="45%" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" />
     <label id="BackLabel" x="80%" y="70%" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" />
 
 </layout>

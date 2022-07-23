@@ -23,6 +23,16 @@ class CloseInputDelegate extends WatchUi.BehaviorDelegate {
         System.exit();
         // return true;
     }
+
+    function onMenu(){
+        if ($.setting_developer) {
+            System.println("Toggle Regatta Mode");
+            $.setting_regatta_mode = !$.setting_regatta_mode;
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 class CloseView extends WatchUi.View {
@@ -60,6 +70,14 @@ class CloseView extends WatchUi.View {
         (findDrawableById("ConfirmLabel") as WatchUi.Text).setText("Yes");
         (findDrawableById("BackLabel") as WatchUi.Text).setText("No");
 
+        if ($.setting_developer) {
+            if ($.setting_regatta_mode) {
+                (findDrawableById("RegattaLabel") as WatchUi.Text).setColor(Graphics.COLOR_GREEN);
+            } else {
+                (findDrawableById("RegattaLabel") as WatchUi.Text).setColor(Graphics.COLOR_RED);
+            }
+            (findDrawableById("RegattaLabel") as WatchUi.Text).setText("Regatta");
+        }
 
         View.onUpdate(dc);
     }
