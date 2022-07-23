@@ -12,6 +12,7 @@ var setting_regatta_mode as Boolean? = false;
 var setting_lap_time as Boolean? = true;
 
 var setting_experimental_heading as Boolean? = false;
+var setting_developer as Boolean? = false;
 
 class SailingApp extends Application.AppBase {
 
@@ -32,6 +33,7 @@ class SailingApp extends Application.AppBase {
             setting_regatta_mode = Properties.getValue("regattaMode");
             setting_lap_time = Properties.getValue("lapTime");
             setting_experimental_heading = Properties.getValue("heading");
+            setting_developer = Properties.getValue("developer");
         } else {
             System.println("Read settings - getProperty");
 
@@ -39,6 +41,7 @@ class SailingApp extends Application.AppBase {
             setting_regatta_mode = app.getProperty("regattaMode") == null ? setting_regatta_mode : app.getProperty("regattaMode");
             setting_lap_time = app.getProperty("lapTime") == null ? setting_lap_time : app.getProperty("lapTime");
             setting_experimental_heading = app.getProperty("heading") == null ? setting_experimental_heading : app.getProperty("heading");
+            setting_developer = app.getProperty("developer") == null ? setting_developer : app.getProperty("developer");
         }
     }
 
